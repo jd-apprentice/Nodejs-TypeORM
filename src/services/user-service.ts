@@ -1,3 +1,4 @@
+import { UpdateResult } from "typeorm";
 import { IUser } from "../@types/user.type";
 import { UserEntity } from "../entity/User";
 import { UserRepository } from "../repositories/user-repository";
@@ -15,7 +16,7 @@ export class UserService {
   static async deleteUser(id: string): Promise<UserEntity> {
     return UserRepository.deleteUser(id);
   }
-  static async updateUser(id: string, user: IUser): Promise<UserEntity> {
+  static async updateUser(id: string, user: IUser): Promise<UpdateResult> {
     return UserRepository.updateUser(id, user);
   }
 }
