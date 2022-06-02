@@ -1,6 +1,6 @@
 import { UpdateResult } from "typeorm";
 import { IUser } from "../@types/user.type";
-import { postgressDataSource } from "../data-source";
+import { Source } from "../data-source";
 import { UserEntity } from "../entity/User";
 import { GenericRepository } from "./generic-repository";
 
@@ -11,10 +11,7 @@ export class UserRepository {
    */
 
   static async findAll(): Promise<UserEntity[]> {
-    return GenericRepository.getRepository(
-      postgressDataSource,
-      UserEntity
-    ).find();
+    return GenericRepository.getRepository(Source, UserEntity).find();
   }
 
   /**
@@ -24,10 +21,7 @@ export class UserRepository {
    */
 
   static async createUser(user: IUser): Promise<UserEntity> {
-    return GenericRepository.getRepository(
-      postgressDataSource,
-      UserEntity
-    ).save({
+    return GenericRepository.getRepository(Source, UserEntity).save({
       first_name: user.first_name,
       last_name: user.last_name,
       age: parseInt(user.age),
@@ -41,10 +35,9 @@ export class UserRepository {
    */
 
   static async findUserById(id: string): Promise<UserEntity> {
-    return GenericRepository.getRepository(
-      postgressDataSource,
-      UserEntity
-    ).findOneBy({ id });
+    return GenericRepository.getRepository(Source, UserEntity).findOneBy({
+      id,
+    });
   }
 
   /**
@@ -54,10 +47,7 @@ export class UserRepository {
    */
 
   static async deleteUser(id: string): Promise<UserEntity> {
-    return GenericRepository.getRepository(
-      postgressDataSource,
-      UserEntity
-    ).delete(id);
+    return GenericRepository.getRepository(Source, UserEntity).delete(id);
   }
 
   /**
@@ -68,10 +58,7 @@ export class UserRepository {
    */
 
   static async updateUser(id: string, user: IUser): Promise<UpdateResult> {
-    return GenericRepository.getRepository(
-      postgressDataSource,
-      UserEntity
-    ).update(
+    return GenericRepository.getRepository(Source, UserEntity).update(
       { id },
       {
         first_name: user.first_name,
