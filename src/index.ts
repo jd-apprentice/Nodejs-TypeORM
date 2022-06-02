@@ -1,10 +1,9 @@
 import cors from "cors";
 import express from "express";
 import apiRoutes from "./routes";
-import { postgressDataSource } from "./data-source";
+import { Source } from "./data-source";
 
-postgressDataSource
-  .initialize()
+Source.initialize()
   .then(() => {
     // Init express app
     const app = express();
