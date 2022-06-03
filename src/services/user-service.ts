@@ -2,21 +2,26 @@ import { UpdateResult } from "typeorm";
 import { IUser } from "../@types/user.type";
 import { UserEntity } from "../entity/User";
 import { UserRepository } from "../repositories/user-repository";
-
-export class UserService {
-  static async findUsers(): Promise<UserEntity[]> {
-    return UserRepository.findAll();
+class UserService {
+  private readonly repository: UserRepository;
+  constructor() {
+    this.repository = new UserRepository();
   }
-  static async createUser(user: IUser): Promise<UserEntity> {
-    return UserRepository.createUser(user);
+  async findUsers(): Promise<UserEntity[]> {
+    return this.repository.findAll();
   }
-  static async findUserById(id: string): Promise<UserEntity> {
-    return UserRepository.findUserById(id);
+  async createUser(user: IUser): Promise<UserEntity> {
+    return this.repository.createUser(user);
   }
-  static async deleteUser(id: string): Promise<UserEntity> {
-    return UserRepository.deleteUser(id);
+  async findUserById(id: string): Promise<UserEntity> {
+    return this.repository.findUserById(id);
   }
-  static async updateUser(id: string, user: IUser): Promise<UpdateResult> {
-    return UserRepository.updateUser(id, user);
+  async deleteUser(id: string) {
+    return this.repository.deleteUser(id);
+  }
+  async updateUser(id: string, user: IUser): Promise<UpdateResult> {
+    return this.repository.updateUser(id, user);
   }
 }
+
+export default new UserService();

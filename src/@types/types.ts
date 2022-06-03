@@ -1,9 +1,15 @@
-import { DataSourceOptions, Repository } from "typeorm";
+import { DatabaseType, Repository } from "typeorm";
+export interface IConfig {
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  database: string;
+  type: DatabaseType;
+}
 
-type DBs = "postgres" | "mysql" | "mongodb";
-
-export type ConfigType = {
-  [key in DBs]: DataSourceOptions;
-};
+export interface AnyObject {
+  [property: string]: any;
+}
 
 export type GenericType = typeof Repository;
