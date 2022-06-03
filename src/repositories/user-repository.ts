@@ -1,17 +1,20 @@
-import { UpdateResult } from "typeorm";
+import { DeleteResult, UpdateResult } from "typeorm";
 import { IUser } from "../@types/user.type";
-import { Source } from "../data-source";
 import { UserEntity } from "../entity/User";
-import { GenericRepository } from "./generic-repository";
+import { CustomRepository } from "./custom-repository";
 
-export class UserRepository {
+export class UserRepository extends CustomRepository<UserEntity> {
+  constructor() {
+    super();
+  }
+
   /**
    * @description Find all users
    * @returns {Promise<UserEntity[]>}
    */
 
-  static async findAll(): Promise<UserEntity[]> {
-    return GenericRepository.getRepository(Source, UserEntity).find();
+  async findAll(): Promise<UserEntity[]> {
+    return UserEntity.getRepository().find();
   }
 
   /**
@@ -20,8 +23,8 @@ export class UserRepository {
    * @returns {Promise<UserEntity>}
    */
 
-  static async createUser(user: IUser): Promise<UserEntity> {
-    return GenericRepository.getRepository(Source, UserEntity).save({
+  async createUser(user: IUser): Promise<UserEntity> {
+    return UserEntity.getRepository().save({
       first_name: user.first_name,
       last_name: user.last_name,
       age: parseInt(user.age),
@@ -34,8 +37,8 @@ export class UserRepository {
    * @returns {Promise<UserEntity>}
    */
 
-  static async findUserById(id: string): Promise<UserEntity> {
-    return GenericRepository.getRepository(Source, UserEntity).findOneBy({
+  async findUserById(id: string): Promise<UserEntity> {
+    return UserEntity.getRepository().findOneBy({
       id,
     });
   }
@@ -43,11 +46,11 @@ export class UserRepository {
   /**
    * @description Delete user by id
    * @param id
-   * @returns {Promise<UserEntity>}
+   * @returns {Promise<DeleteResult>}
    */
 
-  static async deleteUser(id: string): Promise<UserEntity> {
-    return GenericRepository.getRepository(Source, UserEntity).delete(id);
+  async deleteUser(id: string): Promise<DeleteResult> {
+    return UserEntity.getRepository().delete(id);
   }
 
   /**
@@ -57,8 +60,8 @@ export class UserRepository {
    * @returns {Promise<UserEntity>}
    */
 
-  static async updateUser(id: string, user: IUser): Promise<UpdateResult> {
-    return GenericRepository.getRepository(Source, UserEntity).update(
+  async updateUser(id: string, user: IUser): Promise<UpdateResult> {
+    return UserEntity.getRepository().update(
       { id },
       {
         first_name: user.first_name,

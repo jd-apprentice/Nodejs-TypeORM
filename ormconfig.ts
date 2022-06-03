@@ -4,12 +4,10 @@ import { DatabaseType, DataSourceOptions } from "typeorm";
 const env = dotenv.config();
 dotenvExpand.expand(env);
 
-console.log(process.env);
-
 const config = {
   host: process.env[`${process.env.DB_TYPE}_HOST`],
   type: process.env.DB_TYPE as DatabaseType,
-  port: Number(process.env[`${process.env.DB_TYPE}_PORT`]),
+  port: +process.env[`${process.env.DB_TYPE}_PORT`],
   username: process.env[`${process.env.DB_TYPE}_USER`],
   password: process.env[`${process.env.DB_TYPE}_PASS`],
   database: process.env[`${process.env.DB_TYPE}_DB`],
