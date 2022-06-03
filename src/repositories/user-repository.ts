@@ -57,7 +57,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
    * @description Update user by id
    * @param id
    * @param user
-   * @returns {Promise<UserEntity>}
+   * @returns {Promise<UpdateResult>}
    */
 
   async updateUser(id: string, user: IUser): Promise<UpdateResult> {
