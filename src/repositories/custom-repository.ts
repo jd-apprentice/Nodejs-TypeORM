@@ -8,7 +8,6 @@ export class CustomRepository<T> extends Repository<T> {
 
   /**
    * @description Find all entities
-   * @returns {Promise<T[]>}
    * @memberof CustomRepository
    * @returns {Promise<T[]>}
    */
@@ -20,7 +19,6 @@ export class CustomRepository<T> extends Repository<T> {
   /**
    * @description Find entity by id
    * @param {string} id
-   * @returns {Promise<T>}
    * @memberof CustomRepository
    * @returns {Promise<T>}
    */
@@ -32,7 +30,6 @@ export class CustomRepository<T> extends Repository<T> {
   /**
    * @description Create entity
    * @param {T} entity
-   * @returns {Promise<T>}
    * @memberof CustomRepository
    * @returns {Promise<T>}
    */
@@ -45,8 +42,8 @@ export class CustomRepository<T> extends Repository<T> {
    * @description Update entity by id
    * @param {string} id
    * @param {T} entity
-   * @returns {Promise<T>}
    * @memberof CustomRepository
+   * @returns {Promise<T>}
    */
 
   async updateEntity(id: T, entity: T): Promise<UpdateResult> {
@@ -56,8 +53,8 @@ export class CustomRepository<T> extends Repository<T> {
   /**
    * @description Delete entity by id
    * @param {string} id
-   * @returns {Promise<DeleteResult>}
    * @memberof CustomRepository
+   * @returns {Promise<DeleteResult>}
    */
 
   async deleteEntity(id: T): Promise<DeleteResult> {
