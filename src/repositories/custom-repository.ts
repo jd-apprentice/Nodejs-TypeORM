@@ -40,24 +40,24 @@ export class CustomRepository<T> extends Repository<T> {
 
   /**
    * @description Update entity by id
-   * @param {string} id
+   * @param {number} id
    * @param {T} entity
    * @memberof CustomRepository
    * @returns {Promise<UpdateResult>}
    */
 
-  async updateEntity(id: string, entity: T): Promise<UpdateResult> {
+  async updateEntity(id: number, entity: T): Promise<UpdateResult> {
     return this.update(id, entity);
   }
 
   /**
    * @description Delete entity by id
-   * @param {string} id
+   * @param {number} id
    * @memberof CustomRepository
    * @returns {Promise<DeleteResult>}
    */
 
-  async deleteEntity(id: string): Promise<DeleteResult> {
+  async deleteEntity(id: number): Promise<DeleteResult> {
     return this.delete(id);
   }
 }

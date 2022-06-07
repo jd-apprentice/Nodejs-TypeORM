@@ -27,7 +27,11 @@ export class UserRepository extends CustomRepository<UserEntity> {
     return UserEntity.getRepository().save({
       first_name: user.first_name,
       last_name: user.last_name,
-      age: parseInt(user.age),
+      age: +user.age,
+      date_of_birth: user.date_of_birth,
+      likes: user.likes,
+      experiences: user.experiences,
+      educations: user.educations,
     });
   }
 
@@ -37,7 +41,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
    * @returns {Promise<UserEntity>}
    */
 
-  async findUserById(id: string): Promise<UserEntity> {
+  async findUserById(id: number): Promise<UserEntity> {
     return UserEntity.getRepository().findOneBy({
       id,
     });
@@ -49,7 +53,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
    * @returns {Promise<DeleteResult>}
    */
 
-  async deleteUser(id: string): Promise<DeleteResult> {
+  async deleteUser(id: number): Promise<DeleteResult> {
     return UserEntity.getRepository().delete(id);
   }
 
@@ -60,14 +64,18 @@ export class UserRepository extends CustomRepository<UserEntity> {
    * @returns {Promise<UpdateResult>}
    */
 
-  async updateUser(id: string, user: IUser): Promise<UpdateResult> {
+  async updateUser(id: number, user: IUser): Promise<UpdateResult> {
     return UserEntity.getRepository().update(
       { id },
       {
         first_name: user.first_name,
         last_name: user.last_name,
-        age: parseInt(user.age),
+        age: +user.age,
         date_of_birth: user.date_of_birth,
+        likes: user.likes,
+        experiences: user.experiences,
+        educations: user.educations,
+        role: user.role,
       }
     );
   }

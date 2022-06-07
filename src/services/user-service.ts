@@ -13,13 +13,13 @@ class UserService {
   async createUser(user: IUser): Promise<UserEntity> {
     return this.repository.createUser(user);
   }
-  async findUserById(id: string): Promise<UserEntity> {
+  async findUserById(id: number): Promise<UserEntity> {
     return this.repository.findUserById(id);
   }
-  async deleteUser(id: string) {
+  async deleteUser(id: number) {
     return this.repository.deleteUser(id);
   }
-  async updateUser(id: string, user: IUser): Promise<UpdateResult> {
+  async updateUser(id: number, user: IUser): Promise<UpdateResult> {
     return this.repository.updateUser(id, user);
   }
 }

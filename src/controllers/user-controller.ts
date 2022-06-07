@@ -55,7 +55,7 @@ class UserController {
   async findById(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params;
-      const userData = await UserService.findUserById(id);
+      const userData = await UserService.findUserById(+id);
       return res.json({
         user: userData,
       });
@@ -77,7 +77,7 @@ class UserController {
   async deleteUser(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params;
-      await UserService.deleteUser(id);
+      await UserService.deleteUser(+id);
       return res.json({
         message: "User deleted",
         success: true,
@@ -100,7 +100,7 @@ class UserController {
   async updateUser(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params;
-      await UserService.updateUser(id, req.body);
+      await UserService.updateUser(+id, req.body);
       return res.json({
         message: "User updated",
       });
