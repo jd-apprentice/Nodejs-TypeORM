@@ -1,9 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { UserEntity } from "./User";
 
 @Entity()
 export class Experiences {
-  @PrimaryGeneratedColumn("uuid")
-  experience_id: string;
+  @PrimaryGeneratedColumn()
+  id: string;
 
   @Column()
   company: string;
@@ -16,4 +23,9 @@ export class Experiences {
 
   @Column()
   to: Date;
+
+  @ManyToOne(() => UserEntity, (user) => user.experiences, {
+    cascade: true,
+  })
+  user: UserEntity;
 }

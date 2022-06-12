@@ -31,7 +31,6 @@ export class UserRepository extends CustomRepository<UserEntity> {
       date_of_birth: user.date_of_birth,
       likes: user.likes,
       experiences: user.experiences,
-      educations: user.educations,
     });
   }
 
@@ -74,7 +73,6 @@ export class UserRepository extends CustomRepository<UserEntity> {
         date_of_birth: user.date_of_birth,
         likes: user.likes,
         experiences: user.experiences,
-        educations: user.educations,
         role: user.role,
       }
     );

@@ -3,12 +3,11 @@ import {
   PrimaryGeneratedColumn,
   Column,
   BaseEntity,
-  ManyToMany,
+  OneToMany,
   JoinTable,
 } from "typeorm";
 import { UserRole } from "../@types/user.type";
 import { Experiences } from "./Experiences";
-import { Education } from "./Education";
 
 @Entity()
 export class UserEntity extends BaseEntity {
@@ -40,11 +39,6 @@ export class UserEntity extends BaseEntity {
   @Column({ default: true })
   is_active: boolean;
 
-  @ManyToMany(() => Experiences, (experience) => experience.experience_id)
-  @JoinTable()
+  @OneToMany(() => Experiences, (experience) => experience.user)
   experiences: Experiences[];
-
-  @ManyToMany(() => Education, (education) => education.education_id)
-  @JoinTable()
-  educations: Education[];
 }
