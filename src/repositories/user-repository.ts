@@ -9,12 +9,27 @@ export class UserRepository extends CustomRepository<UserEntity> {
   }
 
   /**
+   * @memberof UserRepository
+   * @description Access to the entity manager
+   * @returns {UserEntity}
+   */
+
+  getRepository(): typeof UserEntity {
+    return UserEntity;
+  }
+
+  /**
    * @description Find all users
    * @returns {Promise<UserEntity[]>}
    */
 
   async findAll(): Promise<UserEntity[]> {
-    return UserEntity.getRepository().find();
+    return this.getRepository().find({
+      relations: {
+        experiences: true,
+        educations: true,
+      },
+    });
   }
 
   /**
@@ -24,13 +39,14 @@ export class UserRepository extends CustomRepository<UserEntity> {
    */
 
   async createUser(user: IUser): Promise<UserEntity> {
-    return UserEntity.getRepository().save({
+    return this.getRepository().save({
       first_name: user.first_name,
       last_name: user.last_name,
       age: +user.age,
       date_of_birth: user.date_of_birth,
       likes: user.likes,
       experiences: user.experiences,
+      educations: user.educations,
     });
   }
 
@@ -41,7 +57,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
    */
 
   async findUserById(id: number): Promise<UserEntity> {
-    return UserEntity.getRepository().findOneBy({
+    return this.getRepository().findOneBy({
       id,
     });
   }
@@ -53,7 +69,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
    */
 
   async deleteUser(id: number): Promise<DeleteResult> {
-    return UserEntity.getRepository().delete(id);
+    return this.getRepository().delete(id);
   }
 
   /**
@@ -64,7 +80,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
    */
 
   async updateUser(id: number, user: IUser): Promise<UpdateResult> {
-    return UserEntity.getRepository().update(
+    return this.getRepository().update(
       { id },
       {
         first_name: user.first_name,
@@ -73,6 +89,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
         date_of_birth: user.date_of_birth,
         likes: user.likes,
         experiences: user.experiences,
+        educations: user.educations,
         role: user.role,
       }
     );

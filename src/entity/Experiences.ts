@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { UserEntity } from "./User";
 
 @Entity()
@@ -23,6 +17,12 @@ export class Experiences {
 
   @Column()
   to: Date;
+
+  @Column({ default: new Date() })
+  created_at: Date;
+
+  @Column({ nullable: true })
+  updated_at: Date;
 
   @ManyToOne(() => UserEntity, (user) => user.experiences, {
     cascade: true,

@@ -7,6 +7,7 @@ import {
   JoinTable,
 } from "typeorm";
 import { UserRole } from "../@types/user.type";
+import { Education } from "./Education";
 import { Experiences } from "./Experiences";
 
 @Entity()
@@ -39,6 +40,15 @@ export class UserEntity extends BaseEntity {
   @Column({ default: true })
   is_active: boolean;
 
+  @Column({ default: new Date() })
+  created_at: Date;
+
+  @Column({ nullable: true })
+  updated_at: Date;
+
   @OneToMany(() => Experiences, (experience) => experience.user)
   experiences: Experiences[];
+
+  @OneToMany(() => Education, (education) => education.user)
+  educations: Education[];
 }

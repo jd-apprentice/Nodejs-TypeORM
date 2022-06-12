@@ -19,6 +19,7 @@ export interface IUser {
   date_of_birth: Date;
   likes: string[];
   experiences: Experiences[];
+  educations: Education[];
   role: UserRole;
 }
 
