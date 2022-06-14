@@ -2,7 +2,11 @@ import { BaseEntity, DeleteResult, Repository, UpdateResult } from "typeorm";
 import { Source } from "../data-source";
 
 export class CustomRepository<T> extends Repository<T> {
-  protected constructor() {
+  /**
+   * @description Initialize constructor
+   */
+
+  constructor() {
     super(BaseEntity, Source.manager);
   }
 
@@ -40,24 +44,35 @@ export class CustomRepository<T> extends Repository<T> {
 
   /**
    * @description Update entity by id
-   * @param {string} id
+   * @param {number} id
    * @param {T} entity
    * @memberof CustomRepository
    * @returns {Promise<UpdateResult>}
    */
 
-  async updateEntity(id: string, entity: T): Promise<UpdateResult> {
+  async updateEntity(id: number, entity: T): Promise<UpdateResult> {
     return this.update(id, entity);
   }
 
   /**
    * @description Delete entity by id
-   * @param {string} id
+   * @param {number} id
    * @memberof CustomRepository
    * @returns {Promise<DeleteResult>}
    */
 
-  async deleteEntity(id: string): Promise<DeleteResult> {
+  async deleteEntity(id: number): Promise<DeleteResult> {
     return this.delete(id);
+  }
+
+  /**
+   * @description Soft delete entity by id
+   * @param id
+   * @memberof CustomRepository
+   * @returns {Promise<DeleteResult>}
+   */
+
+  async softEntity(id: number): Promise<DeleteResult> {
+    return this.softDelete(id);
   }
 }
