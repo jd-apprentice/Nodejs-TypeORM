@@ -17,7 +17,7 @@ class UserController {
       });
     } catch (error) {
       return res.json({
-        message: "There is no users to show",
+        message: "There are no users to show",
         success: false,
       });
     }

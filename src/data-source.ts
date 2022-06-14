@@ -7,5 +7,5 @@ export const Source = new DataSource({
   synchronize: true,
   migrations: [__dirname + "/dist/migrations/*.ts"],
   subscribers: [__dirname + "/dist/subscribers/*.ts}"],
-  entities: [__dirname + "/entity/*.ts"],
+  entities: [__dirname + "/entity/*.js", __dirname + "/entity/*.ts"],
 });

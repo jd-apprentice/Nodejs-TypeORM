@@ -11,15 +11,15 @@ import {
 import { UserEntity } from "./User";
 
 @Entity()
-export class Experiences extends BaseEntity {
+export class Educations extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
   @Column()
-  company: string;
+  school: string;
 
   @Column()
-  title: string;
+  degree: string;
 
   @Column()
   from: Date;
@@ -36,7 +36,7 @@ export class Experiences extends BaseEntity {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @ManyToOne(() => UserEntity, (user) => user.experiences, {
+  @ManyToOne(() => UserEntity, (user) => user.educations, {
     cascade: true,
     onDelete: "CASCADE",
   })

@@ -4,10 +4,12 @@ import {
   Column,
   BaseEntity,
   OneToMany,
-  JoinTable,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from "typeorm";
 import { UserRole } from "../@types/user.type";
-import { Education } from "./Education";
+import { Educations } from "./Educations";
 import { Experiences } from "./Experiences";
 
 @Entity()
@@ -38,17 +40,20 @@ export class UserEntity extends BaseEntity {
   role: UserRole;
 
   @Column({ default: true })
-  is_active: boolean;
+  isActive: boolean;
 
-  @Column({ default: new Date() })
-  created_at: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-  @Column({ nullable: true })
-  updated_at: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   @OneToMany(() => Experiences, (experience) => experience.user)
   experiences: Experiences[];
 
-  @OneToMany(() => Education, (education) => education.user)
-  educations: Education[];
+  @OneToMany(() => Educations, (education) => education.user)
+  educations: Educations[];
 }

@@ -1,5 +1,4 @@
 import { DeleteResult, UpdateResult } from "typeorm";
-import { IUser } from "../@types/user.type";
 import { UserEntity } from "../entity/User";
 import { UserRepository } from "../repositories/user-repository";
 class UserService {
@@ -10,7 +9,7 @@ class UserService {
   async findUsers(): Promise<UserEntity[]> {
     return this.repository.findAll();
   }
-  async createUser(user: IUser): Promise<UserEntity> {
+  async createUser(user: Partial<UserEntity>): Promise<UserEntity> {
     return this.repository.createUser(user);
   }
   async findUserById(id: number): Promise<UserEntity> {
@@ -19,7 +18,10 @@ class UserService {
   async deleteUser(id: number): Promise<DeleteResult> {
     return this.repository.deleteUser(id);
   }
-  async updateUser(id: number, user: IUser): Promise<UpdateResult> {
+  async updateUser(
+    id: number,
+    user: Partial<UserEntity>
+  ): Promise<UpdateResult> {
     return this.repository.updateUser(id, user);
   }
 }
