@@ -1,19 +1,22 @@
-import { BaseEntity, DeleteResult, Repository, UpdateResult } from "typeorm";
-import { Source } from "../data-source";
+import {
+  BaseEntity,
+  DeleteResult,
+  FindManyOptions,
+  FindOneOptions,
+  Repository,
+  UpdateResult,
+} from "typeorm";
+import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 
 export class CustomRepository<T> extends Repository<T> {
-  protected constructor() {
-    super(BaseEntity, Source.manager);
-  }
-
   /**
    * @description Find all entities
    * @memberof CustomRepository
    * @returns {Promise<T[]>}
    */
 
-  async findAll(): Promise<T[]> {
-    return this.find();
+  async findAll(options?: FindManyOptions<T>): Promise<T[]> {
+    return this.find(options);
   }
 
   /**
@@ -23,7 +26,7 @@ export class CustomRepository<T> extends Repository<T> {
    * @returns {Promise<T>}
    */
 
-  async findById(id: T): Promise<T> {
+  async findById(id: FindOneOptions<T>): Promise<T> {
     return this.findOne(id);
   }
 
@@ -40,24 +43,38 @@ export class CustomRepository<T> extends Repository<T> {
 
   /**
    * @description Update entity by id
-   * @param {string} id
+   * @param {number} id
    * @param {T} entity
    * @memberof CustomRepository
    * @returns {Promise<UpdateResult>}
    */
 
-  async updateEntity(id: string, entity: T): Promise<UpdateResult> {
-    return this.update(id, entity);
+  async updateEntity(
+    id: FindOneOptions<T>,
+    entity: QueryDeepPartialEntity<T>
+  ): Promise<UpdateResult> {
+    return this.update(+id, entity);
   }
 
   /**
    * @description Delete entity by id
-   * @param {string} id
+   * @param {number} id
    * @memberof CustomRepository
    * @returns {Promise<DeleteResult>}
    */
 
-  async deleteEntity(id: string): Promise<DeleteResult> {
+  async deleteEntity(id: number): Promise<DeleteResult> {
     return this.delete(id);
+  }
+
+  /**
+   * @description Soft delete entity by id
+   * @param id
+   * @memberof CustomRepository
+   * @returns {Promise<DeleteResult>}
+   */
+
+  async softEntity(id: number): Promise<DeleteResult> {
+    return this.softDelete(id);
   }
 }
