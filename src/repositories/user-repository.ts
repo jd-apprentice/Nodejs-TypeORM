@@ -1,27 +1,15 @@
-import { DeleteResult, UpdateResult } from "typeorm";
-import { Educations } from "../entity/Educations";
-import { Experiences } from "../entity/Experiences";
+import {
+  DeleteResult,
+  FindOneOptions,
+  Repository,
+  UpdateResult,
+} from "typeorm";
+import { Source } from "../data-source";
 import { UserEntity } from "../entity/User";
 import { CustomRepository } from "./custom-repository";
 export class UserRepository extends CustomRepository<UserEntity> {
   constructor() {
-    super();
-  }
-
-  /**
-   * @description Initialize all entities
-   */
-
-  private userRepository(): typeof UserEntity {
-    return UserEntity;
-  }
-
-  private experienceRepository(): typeof Experiences {
-    return Experiences;
-  }
-
-  private educationRepository(): typeof Educations {
-    return Educations;
+    super(UserEntity, Source.manager);
   }
 
   /**
@@ -29,8 +17,8 @@ export class UserRepository extends CustomRepository<UserEntity> {
    * @returns {Promise<UserEntity[]>}
    */
 
-  async findAll(): Promise<UserEntity[]> {
-    return this.userRepository().find({
+  async findUsers(): Promise<UserEntity[]> {
+    return this.findAll({
       relations: {
         experiences: true,
         educations: true,
@@ -45,9 +33,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
    */
 
   async createUser(user: Partial<UserEntity>): Promise<UserEntity> {
-    await this.experienceRepository().save(user.experiences as Experiences[]);
-    await this.educationRepository().save(user.educations as Educations[]);
-    return this.userRepository().save(user as UserEntity);
+    return this.createEntity(user as UserEntity);
   }
 
   /**
@@ -56,8 +42,8 @@ export class UserRepository extends CustomRepository<UserEntity> {
    * @returns {Promise<UserEntity>}
    */
 
-  async findUserById(id: number): Promise<UserEntity> {
-    return this.userRepository().findOneBy({ id });
+  async findUserById(id: FindOneOptions): Promise<UserEntity> {
+    return this.findById(id);
   }
 
   /**
@@ -67,7 +53,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
    */
 
   async deleteUser(id: number): Promise<DeleteResult> {
-    return this.userRepository().delete(id);
+    return this.deleteEntity(id);
   }
 
   /**
@@ -88,9 +74,9 @@ export class UserRepository extends CustomRepository<UserEntity> {
    */
 
   async updateUser(
-    id: number,
+    id: FindOneOptions,
     user: Partial<UserEntity>
   ): Promise<UpdateResult> {
-    return this.userRepository().update({ id }, user);
+    return this.updateEntity(id, user);
   }
 }

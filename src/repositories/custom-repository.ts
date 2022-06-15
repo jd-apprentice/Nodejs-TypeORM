@@ -1,23 +1,22 @@
-import { BaseEntity, DeleteResult, Repository, UpdateResult } from "typeorm";
-import { Source } from "../data-source";
+import {
+  BaseEntity,
+  DeleteResult,
+  FindManyOptions,
+  FindOneOptions,
+  Repository,
+  UpdateResult,
+} from "typeorm";
+import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 
 export class CustomRepository<T> extends Repository<T> {
-  /**
-   * @description Initialize constructor
-   */
-
-  constructor() {
-    super(BaseEntity, Source.manager);
-  }
-
   /**
    * @description Find all entities
    * @memberof CustomRepository
    * @returns {Promise<T[]>}
    */
 
-  async findAll(): Promise<T[]> {
-    return this.find();
+  async findAll(options?: FindManyOptions<T>): Promise<T[]> {
+    return this.find(options);
   }
 
   /**
@@ -27,7 +26,7 @@ export class CustomRepository<T> extends Repository<T> {
    * @returns {Promise<T>}
    */
 
-  async findById(id: T): Promise<T> {
+  async findById(id: FindOneOptions<T>): Promise<T> {
     return this.findOne(id);
   }
 
@@ -50,8 +49,11 @@ export class CustomRepository<T> extends Repository<T> {
    * @returns {Promise<UpdateResult>}
    */
 
-  async updateEntity(id: number, entity: T): Promise<UpdateResult> {
-    return this.update(id, entity);
+  async updateEntity(
+    id: FindOneOptions<T>,
+    entity: QueryDeepPartialEntity<T>
+  ): Promise<UpdateResult> {
+    return this.update(+id, entity);
   }
 
   /**
