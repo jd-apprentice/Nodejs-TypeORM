@@ -1,9 +1,5 @@
-import {
-  DeleteResult,
-  FindOneOptions,
-  Repository,
-  UpdateResult,
-} from "typeorm";
+import { DeleteResult, UpdateResult } from "typeorm";
+import { FindWhere } from "../@types/types";
 import { Source } from "../data-source";
 import { UserEntity } from "../entity/User";
 import { CustomRepository } from "./custom-repository";
@@ -42,8 +38,8 @@ export class UserRepository extends CustomRepository<UserEntity> {
    * @returns {Promise<UserEntity>}
    */
 
-  async findUserById(id: FindOneOptions): Promise<UserEntity> {
-    return this.findById(id);
+  async findUser(id: FindWhere<UserEntity>): Promise<UserEntity> {
+    return this.findById(id, { relations: ["experiences", "educations"] });
   }
 
   /**
@@ -52,7 +48,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
    * @returns {Promise<DeleteResult>}
    */
 
-  async deleteUser(id: number): Promise<DeleteResult> {
+  async deleteUser(id: FindWhere<UserEntity>): Promise<DeleteResult> {
     return this.deleteEntity(id);
   }
 
@@ -62,7 +58,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
    * @returns {Promise<DeleteResult>}
    */
 
-  async softDeleteUser(id: number): Promise<DeleteResult> {
+  async softDeleteUser(id: FindWhere<UserEntity>): Promise<DeleteResult> {
     return this.softEntity(id);
   }
 
@@ -74,7 +70,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
    */
 
   async updateUser(
-    id: FindOneOptions,
+    id: FindWhere<UserEntity>,
     user: Partial<UserEntity>
   ): Promise<UpdateResult> {
     return this.updateEntity(id, user);
