@@ -1,20 +1,9 @@
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, ManyToOne } from "typeorm";
+import { CustomEntity } from "./CustomEntity";
 import { UserEntity } from "./User";
 
 @Entity()
-export class Educations extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: string;
-
+export class Educations extends CustomEntity {
   @Column()
   school: string;
 
@@ -26,15 +15,6 @@ export class Educations extends BaseEntity {
 
   @Column()
   to: Date;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date;
 
   @ManyToOne(() => UserEntity, (user) => user.educations, {
     cascade: true,
