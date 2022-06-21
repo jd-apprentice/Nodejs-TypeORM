@@ -1,20 +1,9 @@
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { CustomEntity } from "./CustomEntity";
 import { UserEntity } from "./User";
 
 @Entity()
-export class Experiences extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: string;
-
+export class Experiences extends CustomEntity {
   @Column()
   company: string;
 
@@ -27,18 +16,10 @@ export class Experiences extends BaseEntity {
   @Column()
   to: Date;
 
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date;
-
   @ManyToOne(() => UserEntity, (user) => user.experiences, {
     cascade: true,
     onDelete: "CASCADE",
   })
+  @JoinColumn()
   user: UserEntity;
 }

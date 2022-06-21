@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { ID } from "../@types/types";
+import { UserEntity } from "../entity/User";
 import UserService from "../services/user-service";
 
 class UserController {
@@ -54,14 +56,14 @@ class UserController {
 
   async findById(req: Request, res: Response): Promise<Response> {
     try {
-      const { id } = req.params;
-      const userData = await UserService.findUserById(+id);
+      const { id }: ID = req.params;
+      const userData = await UserService.findUserById(id);
       return res.json({
         user: userData,
       });
     } catch (error) {
       return res.json({
-        message: "There is no user with this id",
+        message: error.message,
         success: false,
       });
     }
@@ -76,12 +78,16 @@ class UserController {
 
   async deleteUser(req: Request, res: Response): Promise<Response> {
     try {
-      const { id } = req.params;
-      await UserService.deleteUser(+id);
-      return res.json({
-        message: "User deleted",
-        success: true,
-      });
+      const { id }: ID = req.params;
+      const userExists = await UserService.findUserById(id);
+      userExists
+        ? (await UserService.deleteUser(id)) &&
+          res.json({
+            message: "User deleted",
+          })
+        : res.json({
+            message: "User does not exist",
+          });
     } catch (error) {
       return res.json({
         message: error.message,
@@ -99,8 +105,8 @@ class UserController {
 
   async updateUser(req: Request, res: Response): Promise<Response> {
     try {
-      const { id } = req.params;
-      await UserService.updateUser(+id, req.body);
+      const { id }: any = req.params;
+      await UserService.updateUser(id, req.body);
       return res.json({
         message: "User updated",
       });

@@ -1,27 +1,13 @@
 import { DeleteResult, UpdateResult } from "typeorm";
+import { FindWhere } from "../@types/types";
+import { Source } from "../data-source";
 import { Educations } from "../entity/Educations";
 import { Experiences } from "../entity/Experiences";
 import { UserEntity } from "../entity/User";
 import { CustomRepository } from "./custom-repository";
 export class UserRepository extends CustomRepository<UserEntity> {
   constructor() {
-    super();
-  }
-
-  /**
-   * @description Initialize all entities
-   */
-
-  private userRepository(): typeof UserEntity {
-    return UserEntity;
-  }
-
-  private experienceRepository(): typeof Experiences {
-    return Experiences;
-  }
-
-  private educationRepository(): typeof Educations {
-    return Educations;
+    super(UserEntity, Source.manager);
   }
 
   /**
@@ -29,8 +15,8 @@ export class UserRepository extends CustomRepository<UserEntity> {
    * @returns {Promise<UserEntity[]>}
    */
 
-  async findAll(): Promise<UserEntity[]> {
-    return this.userRepository().find({
+  async findUsers(): Promise<UserEntity[]> {
+    return this.findAll({
       relations: {
         experiences: true,
         educations: true,
@@ -45,9 +31,11 @@ export class UserRepository extends CustomRepository<UserEntity> {
    */
 
   async createUser(user: Partial<UserEntity>): Promise<UserEntity> {
-    await this.experienceRepository().save(user.experiences as Experiences[]);
-    await this.educationRepository().save(user.educations as Educations[]);
-    return this.userRepository().save(user as UserEntity);
+    return (
+      (await Experiences.save(user.experiences)) &&
+      (await Educations.save(user.educations)) &&
+      (await this.createEntity(user as UserEntity))
+    );
   }
 
   /**
@@ -56,8 +44,14 @@ export class UserRepository extends CustomRepository<UserEntity> {
    * @returns {Promise<UserEntity>}
    */
 
-  async findUserById(id: number): Promise<UserEntity> {
-    return this.userRepository().findOneBy({ id });
+  async findUser(id: FindWhere<UserEntity>): Promise<UserEntity> {
+    return this.findById({
+      where: { id } as FindWhere<UserEntity>,
+      relations: {
+        experiences: true,
+        educations: true,
+      },
+    });
   }
 
   /**
@@ -66,8 +60,8 @@ export class UserRepository extends CustomRepository<UserEntity> {
    * @returns {Promise<DeleteResult>}
    */
 
-  async deleteUser(id: number): Promise<DeleteResult> {
-    return this.userRepository().delete(id);
+  async deleteUser(id: FindWhere<UserEntity>): Promise<DeleteResult> {
+    return this.deleteEntity(id);
   }
 
   /**
@@ -76,7 +70,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
    * @returns {Promise<DeleteResult>}
    */
 
-  async softDeleteUser(id: number): Promise<DeleteResult> {
+  async softDeleteUser(id: FindWhere<UserEntity>): Promise<DeleteResult> {
     return this.softEntity(id);
   }
 
@@ -88,9 +82,9 @@ export class UserRepository extends CustomRepository<UserEntity> {
    */
 
   async updateUser(
-    id: number,
+    id: FindWhere<UserEntity>,
     user: Partial<UserEntity>
   ): Promise<UpdateResult> {
-    return this.userRepository().update({ id }, user);
+    return this.updateEntity(id, user as UserEntity);
   }
 }
