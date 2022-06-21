@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { CustomEntity } from "./CustomEntity";
 import { UserEntity } from "./User";
 
@@ -20,5 +20,6 @@ export class Educations extends CustomEntity {
     cascade: true,
     onDelete: "CASCADE",
   })
+  @JoinColumn()
   user: UserEntity;
 }

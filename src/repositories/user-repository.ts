@@ -1,6 +1,8 @@
 import { DeleteResult, UpdateResult } from "typeorm";
 import { FindWhere } from "../@types/types";
 import { Source } from "../data-source";
+import { Educations } from "../entity/Educations";
+import { Experiences } from "../entity/Experiences";
 import { UserEntity } from "../entity/User";
 import { CustomRepository } from "./custom-repository";
 export class UserRepository extends CustomRepository<UserEntity> {
@@ -29,7 +31,11 @@ export class UserRepository extends CustomRepository<UserEntity> {
    */
 
   async createUser(user: Partial<UserEntity>): Promise<UserEntity> {
-    return this.createEntity(user as UserEntity);
+    return (
+      (await Experiences.save(user.experiences)) &&
+      (await Educations.save(user.educations)) &&
+      (await this.createEntity(user as UserEntity))
+    );
   }
 
   /**
@@ -39,7 +45,13 @@ export class UserRepository extends CustomRepository<UserEntity> {
    */
 
   async findUser(id: FindWhere<UserEntity>): Promise<UserEntity> {
-    return this.findById(id, { relations: ["experiences", "educations"] });
+    return this.findById({
+      where: { id } as FindWhere<UserEntity>,
+      relations: {
+        experiences: true,
+        educations: true,
+      },
+    });
   }
 
   /**
@@ -73,6 +85,6 @@ export class UserRepository extends CustomRepository<UserEntity> {
     id: FindWhere<UserEntity>,
     user: Partial<UserEntity>
   ): Promise<UpdateResult> {
-    return this.updateEntity(id, user);
+    return this.updateEntity(id, user as UserEntity);
   }
 }

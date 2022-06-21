@@ -63,7 +63,7 @@ class UserController {
       });
     } catch (error) {
       return res.json({
-        message: "There is no user with this id",
+        message: error.message,
         success: false,
       });
     }
