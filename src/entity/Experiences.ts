@@ -5,6 +5,9 @@ import { UserEntity } from "./User";
 @Entity()
 export class Experiences extends CustomEntity {
   @Column()
+  id: string;
+
+  @Column()
   company: string;
 
   @Column()
@@ -19,6 +22,7 @@ export class Experiences extends CustomEntity {
   @ManyToOne(() => UserEntity, (user) => user.experiences, {
     cascade: true,
     onDelete: "CASCADE",
+    onUpdate: "CASCADE",
   })
   @JoinColumn()
   user: UserEntity;

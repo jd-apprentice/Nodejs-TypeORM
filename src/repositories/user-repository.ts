@@ -83,8 +83,13 @@ export class UserRepository extends CustomRepository<UserEntity> {
 
   async updateUser(
     id: FindWhere<UserEntity>,
-    user: Partial<UserEntity>
+    user: UserEntity
   ): Promise<UpdateResult> {
-    return this.updateEntity(id, user as UserEntity);
+    const findUser = await this.findUser(id);
+    const experiencesId = findUser.experiences[0].id;
+    return (
+      (await Experiences.update(experiencesId, user.experiences[0])) &&
+      (await this.updateEntity(id, user))
+    );
   }
 }
