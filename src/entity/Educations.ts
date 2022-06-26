@@ -5,9 +5,6 @@ import { UserEntity } from "./User";
 @Entity()
 export class Educations extends CustomEntity {
   @Column()
-  id: string;
-
-  @Column()
   school: string;
 
   @Column()
@@ -21,8 +18,6 @@ export class Educations extends CustomEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.educations, {
     cascade: true,
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
   })
   @JoinColumn()
   user: UserEntity;
