@@ -18,9 +18,8 @@ export interface IUser {
   age: string;
   date_of_birth: Date;
   likes: string[];
-  experiences: Experiences[];
-  educations: Education[];
   role: UserRole;
+  isActive: boolean;
 }
 
 export enum UserRole {

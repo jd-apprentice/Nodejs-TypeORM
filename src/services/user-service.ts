@@ -21,7 +21,7 @@ class UserService {
   }
   async updateUser(
     id: FindWhere<UserEntity>,
-    user: Partial<UserEntity>
+    user: UserEntity
   ): Promise<UpdateResult> {
     return this.repository.updateUser(id, user);
   }

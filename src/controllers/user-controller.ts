@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { ID } from "../@types/types";
-import { UserEntity } from "../entity/User";
 import UserService from "../services/user-service";
 
 class UserController {
@@ -19,7 +18,7 @@ class UserController {
       });
     } catch (error) {
       return res.json({
-        message: "There are no users to show",
+        message: error.message,
         success: false,
       });
     }
@@ -63,7 +62,7 @@ class UserController {
       });
     } catch (error) {
       return res.json({
-        message: "There is no user with this id",
+        message: error.message,
         success: false,
       });
     }
@@ -105,7 +104,7 @@ class UserController {
 
   async updateUser(req: Request, res: Response): Promise<Response> {
     try {
-      const { id }: any = req.params;
+      const { id }: ID = req.params;
       await UserService.updateUser(id, req.body);
       return res.json({
         message: "User updated",

@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { CustomEntity } from "./CustomEntity";
 import { UserEntity } from "./User";
 
@@ -18,7 +18,7 @@ export class Experiences extends CustomEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.experiences, {
     cascade: true,
-    onDelete: "CASCADE",
   })
+  @JoinColumn()
   user: UserEntity;
 }

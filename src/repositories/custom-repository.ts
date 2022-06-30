@@ -1,11 +1,13 @@
 import {
+  BaseEntity,
   DeleteResult,
   FindManyOptions,
+  FindOneOptions,
   Repository,
   UpdateResult,
 } from "typeorm";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
-import { FindWhere, OptionsFind } from "../@types/types";
+import { FindWhere } from "../@types/types";
 
 export class CustomRepository<T> extends Repository<T> {
   /**
@@ -21,18 +23,13 @@ export class CustomRepository<T> extends Repository<T> {
 
   /**
    * @description Find entity by id
-   * @param {FindWhere<T>} id
-   * @param {OptionsFind<T>} relations
+   * @param {FindOneOptions<T>} options
    * @memberof CustomRepository
    * @returns {Promise<T>}
    */
 
-  async findById(id?: FindWhere<T>, relations?: OptionsFind): Promise<T> {
-    return this.createQueryBuilder("entity")
-      .where("entity.id = :id", { id })
-      .setParameter("id", id)
-      .loadAllRelationIds(relations)
-      .getOne();
+  async findById(options?: FindOneOptions<T>): Promise<T> {
+    return this.findOne(options);
   }
 
   /**
@@ -55,8 +52,8 @@ export class CustomRepository<T> extends Repository<T> {
    */
 
   async updateEntity(
-    id?: FindWhere<T>,
-    entity?: QueryDeepPartialEntity<T>
+    id: FindWhere<T>,
+    entity: QueryDeepPartialEntity<T>
   ): Promise<UpdateResult> {
     return this.update(id, entity);
   }
