@@ -6,3 +6,4 @@ tmp/
 temp/
 .env
 data_postgres
+mysql_data

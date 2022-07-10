@@ -1,4 +1,4 @@
-import { Entity, Column, OneToMany, JoinColumn, OneToOne } from "typeorm";
+import { Entity, Column, OneToMany } from "typeorm";
 import { UserRole } from "../@types/user.type";
 import { CustomEntity } from "./CustomEntity";
 import { Educations } from "./Educations";
