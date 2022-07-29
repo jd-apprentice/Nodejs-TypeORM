@@ -20,6 +20,8 @@ export interface IUser {
   likes: string[];
   role: UserRole;
   isActive: boolean;
+  educations: Education[]
+  experiences: Experiences[]
 }
 
 export enum UserRole {

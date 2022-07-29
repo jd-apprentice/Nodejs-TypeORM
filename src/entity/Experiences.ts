@@ -16,9 +16,6 @@ export class Experiences extends CustomEntity {
   @Column()
   to: Date;
 
-  @ManyToOne(() => UserEntity, (user) => user.experiences, {
-    cascade: true,
-  })
-  @JoinColumn()
+  @ManyToOne(() => UserEntity, (user) => user.experiences)
   user: UserEntity;
 }

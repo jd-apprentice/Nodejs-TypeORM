@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   DeleteResult,
   FindManyOptions,
   FindOneOptions,
@@ -55,7 +54,7 @@ export class CustomRepository<T> extends Repository<T> {
     id: FindWhere<T>,
     entity: QueryDeepPartialEntity<T>
   ): Promise<UpdateResult> {
-    return this.update(id, entity);
+    return this.update(id, entity)
   }
 
   /**

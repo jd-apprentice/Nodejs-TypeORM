@@ -3,6 +3,7 @@ import { FindWhere } from "../@types/types";
 import { Source } from "../data-source";
 import { Educations } from "../entity/Educations";
 import { Experiences } from "../entity/Experiences";
+import { Role } from "../entity/Role";
 import { UserEntity } from "../entity/User";
 import { CustomRepository } from "./custom-repository";
 export class UserRepository extends CustomRepository<UserEntity> {
@@ -20,6 +21,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
       relations: {
         experiences: true,
         educations: true,
+        role: true
       },
     });
   }
@@ -32,8 +34,9 @@ export class UserRepository extends CustomRepository<UserEntity> {
 
   async createUser(user: Partial<UserEntity>): Promise<UserEntity> {
     return (
-      (await Experiences.save(user.experiences)) &&
-      (await Educations.save(user.educations)) &&
+      (await Experiences.save(user.experiences || [])) &&
+      (await Educations.save(user.educations || [])) &&
+      (await Role.save(user.role || {})) &&
       (await this.createEntity(user as UserEntity))
     );
   }
@@ -50,6 +53,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
       relations: {
         experiences: true,
         educations: true,
+        role: true
       },
     });
   }
@@ -83,8 +87,8 @@ export class UserRepository extends CustomRepository<UserEntity> {
 
   async updateUser(
     id: FindWhere<UserEntity>,
-    user: UserEntity
+    user: Partial<UserEntity>
   ): Promise<UpdateResult> {
-    return this.updateEntity(id, user);
+    return this.updateEntity(id, user)
   }
 }

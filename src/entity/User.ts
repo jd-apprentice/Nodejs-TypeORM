@@ -1,8 +1,8 @@
-import { Entity, Column, OneToMany } from "typeorm";
-import { UserRole } from "../@types/user.type";
+import { Entity, Column, OneToMany, OneToOne, JoinColumn } from "typeorm";
 import { CustomEntity } from "./CustomEntity";
 import { Educations } from "./Educations";
 import { Experiences } from "./Experiences";
+import { Role } from "./Role";
 
 @Entity()
 export class UserEntity extends CustomEntity {
@@ -21,19 +21,31 @@ export class UserEntity extends CustomEntity {
   @Column({ type: "text", array: true, nullable: true, default: [] })
   likes: string[];
 
-  @Column({
-    type: "enum",
-    enum: UserRole,
-    default: UserRole.USER,
+  @OneToOne(() => Role, {
+    cascade: true,
+    eager: true
   })
-  role: UserRole;
+  @JoinColumn()
+  role: Role;
 
   @Column({ default: true })
   isActive: boolean;
 
-  @OneToMany(() => Experiences, (experience) => experience.user)
+  @OneToMany(() => Experiences, (experience) => experience.user, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    cascade: true,
+    eager: true
+  })
+  @JoinColumn()
   experiences: Experiences[];
 
-  @OneToMany(() => Educations, (education) => education.user)
+  @OneToMany(() => Educations, (education) => education.user, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    cascade: true,
+    eager: true
+  })
+  @JoinColumn()
   educations: Educations[];
 }
