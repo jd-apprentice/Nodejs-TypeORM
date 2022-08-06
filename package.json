@@ -26,5 +26,5 @@
       "build": "tsc",
       "dev": "nodemon src/index.ts",
       "start": "node ."
-    }
+   }
 }

@@ -12,20 +12,20 @@ interface Education {
   to: Date;
 }
 
+interface Role {
+  description: string;
+}
+
 export interface IUser {
   first_name: string;
   last_name: string;
-  age: string;
+  age: number;
   date_of_birth: Date;
   likes: string[];
-  role: UserRole;
   isActive: boolean;
-  educations: Education[]
-  experiences: Experiences[]
 }
 
 export enum UserRole {
   ADMIN = "admin",
-  EDITOR = "editor",
   USER = "user",
 }
