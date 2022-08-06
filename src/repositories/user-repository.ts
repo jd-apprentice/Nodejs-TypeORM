@@ -1,10 +1,12 @@
 import { DeleteResult, UpdateResult } from "typeorm";
 import { FindWhere } from "../@types/types";
+import { IUser } from "../@types/user.type";
 import { Source } from "../data-source";
 import { Educations } from "../entity/Educations";
 import { Experiences } from "../entity/Experiences";
 import { Role } from "../entity/Role";
 import { UserEntity } from "../entity/User";
+import { ExperienceService } from "../services";
 import { CustomRepository } from "./custom-repository";
 export class UserRepository extends CustomRepository<UserEntity> {
   constructor() {
@@ -21,7 +23,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
       relations: {
         experiences: true,
         educations: true,
-        role: true
+        role: true,
       },
     });
   }
@@ -53,7 +55,7 @@ export class UserRepository extends CustomRepository<UserEntity> {
       relations: {
         experiences: true,
         educations: true,
-        role: true
+        role: true,
       },
     });
   }
@@ -87,8 +89,8 @@ export class UserRepository extends CustomRepository<UserEntity> {
 
   async updateUser(
     id: FindWhere<UserEntity>,
-    user: Partial<UserEntity>
+    user: IUser
   ): Promise<UpdateResult> {
-    return this.updateEntity(id, user)
+    return this.updateEntity(id, user);
   }
 }

@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
 import { ID } from "../@types/types";
-import { ExperienceService } from "../services/index";
+import { EducationService, RoleService } from "../services/index";
 
-class ExperienceController {
+class RoleController {
   /**
-   * @description Count method used to get the amount of entities
+   * @description This method is used to get all Roles
    * @param req - Request object
    * @param res - Response object
-   * @returns {Promise<Response>} - Count
+   * @returns {Promise<Response>}
    */
 
   async count(req: Request, res: Response): Promise<Response> {
     try {
       return res.json({
-        count: (await ExperienceService.findExperiences()).length,
+        count: (await RoleService.findRole()).length,
       });
     } catch (error) {
       return res.json({
@@ -24,7 +24,7 @@ class ExperienceController {
   }
 
   /**
-   * @description This method is used to get all experiences
+   * @description This method is used to get all Roles
    * @param req - Request object
    * @param res - Response object
    * @returns {Promise<Response>}
@@ -32,7 +32,7 @@ class ExperienceController {
 
   async findAll(req: Request, res: Response): Promise<Response> {
     try {
-      return res.json(await ExperienceService.findExperiences());
+      return res.json(await RoleService.findRole());
     } catch (error) {
       return res.json({
         message: error.message,
@@ -42,7 +42,7 @@ class ExperienceController {
   }
 
   /**
-   * @description This method is used to create a new experience
+   * @description This method is used to create a new Role
    * @param req - Request object
    * @param res - Response object
    * @returns {Promise<Response>}
@@ -50,9 +50,9 @@ class ExperienceController {
 
   async create(req: Request, res: Response): Promise<Response> {
     try {
-      await ExperienceService.createExperience(req.body);
+      await RoleService.createRole(req.body);
       return res.json({
-        message: "Experience created",
+        message: "Role created",
         success: true,
       });
     } catch (error) {
@@ -64,7 +64,7 @@ class ExperienceController {
   }
 
   /**
-   * @description This method is used to get a experience by id
+   * @description This method is used to get a Role by id
    * @param req - Request object
    * @param res - Response object
    * @returns {Promise<Response>}
@@ -73,9 +73,9 @@ class ExperienceController {
   async findById(req: Request, res: Response): Promise<Response> {
     try {
       const { id }: ID = req.params;
-      const experienceData = await ExperienceService.findExperienceById(id);
+      const RoleData = await RoleService.findRoleById(id);
       return res.json({
-        experience: experienceData,
+        Role: RoleData,
       });
     } catch (error) {
       return res.json({
@@ -86,7 +86,7 @@ class ExperienceController {
   }
 
   /**
-   * @description This method is used to delete a experience by id
+   * @description This method is used to delete a Role by id
    * @param req - Request object
    * @param res - Response object
    * @returns {Promise<Response>}
@@ -95,14 +95,14 @@ class ExperienceController {
   async delete(req: Request, res: Response): Promise<Response> {
     try {
       const { id }: ID = req.params;
-      const experienceExists = await ExperienceService.findExperienceById(id);
-      experienceExists
-        ? (await ExperienceService.deleteExperience(id)) &&
+      const RoleExists = await RoleService.findRoleById(id);
+      RoleExists
+        ? (await RoleService.deleteRole(id)) &&
           res.json({
-            message: "Experience deleted",
+            message: "Role deleted",
           })
         : res.json({
-            message: "Experience does not exist",
+            message: "Role does not exist",
           });
     } catch (error) {
       return res.json({
@@ -113,7 +113,7 @@ class ExperienceController {
   }
 
   /**
-   * @description This method is used to update a experience by id
+   * @description This method is used to update a Role by id
    * @param req - Request object
    * @param res - Response object
    * @returns {Promise<Response>}
@@ -122,9 +122,9 @@ class ExperienceController {
   async update(req: Request, res: Response): Promise<Response> {
     try {
       const { id }: ID = req.params;
-      await ExperienceService.updateExperience(id, req.body);
+      await RoleService.updateRole(id, req.body);
       return res.json({
-        message: "Experience updated",
+        message: "Role updated",
       });
     } catch (error) {
       return res.json({
@@ -135,4 +135,4 @@ class ExperienceController {
   }
 }
 
-export default new ExperienceController();
+export default new RoleController();

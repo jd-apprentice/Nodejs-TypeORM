@@ -4,9 +4,28 @@ import UserService from "../services/user-service";
 
 class UserController {
   /**
+   * @description Count method used to get the amount of entities
+   * @param req - Request object
+   * @param res - Response object
+   * @returns {Promise<Response>} - Count
+   */
+  async count(req: Request, res: Response): Promise<Response> {
+    try {
+      return res.json({
+        count: (await UserService.findUsers()).length,
+      });
+    } catch (error) {
+      return res.json({
+        message: error.message,
+        success: false,
+      });
+    }
+  }
+
+  /**
    * @description This method is used to get all users
-   * @param req
-   * @param res
+   * @param req - Request object
+   * @param res - Response object
    * @returns {Promise<Response>}
    */
 
@@ -26,8 +45,8 @@ class UserController {
 
   /**
    * @description This method is used to create a new user
-   * @param req
-   * @param res
+   * @param req - Request object
+   * @param res - Response object
    * @returns {Promise<Response>}
    */
 
@@ -48,8 +67,8 @@ class UserController {
 
   /**
    * @description This method is used to get a user by id
-   * @param req
-   * @param res
+   * @param req - Request object
+   * @param res - Response object
    * @returns {Promise<Response>}
    */
 
@@ -70,8 +89,8 @@ class UserController {
 
   /**
    * @description This method is used to delete a user by id
-   * @param req
-   * @param res
+   * @param req - Request object
+   * @param res - Response object
    * @returns {Promise<Response>}
    */
 
@@ -97,8 +116,8 @@ class UserController {
 
   /**
    * @description This method is used to update a user by id
-   * @param req
-   * @param res
+   * @param req - Request object
+   * @param res - Response object
    * @returns {Promise<Response>}
    */
 

@@ -1,15 +1,15 @@
-import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
+import { Column, Entity, OneToOne } from "typeorm";
 import { UserRole } from "../@types/user.type";
-import { CustomEntity } from "./CustomEntity";
+import { MasterEntity } from "./MasterEntity";
 import { UserEntity } from "./User";
 
 @Entity()
-export class Role extends CustomEntity {
-  @OneToOne(() => UserEntity, (user) => user.role, {
-    onUpdate: "CASCADE",
-    onDelete: "CASCADE",
-  })
+export class Role extends MasterEntity {
+  @OneToOne(() => UserEntity, (user) => user.role)
   user: UserEntity;
+
+  @Column({ default: true })
+  isActive: boolean;
 
   @Column({
     type: "enum",

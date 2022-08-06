@@ -16,10 +16,8 @@ class ExperienceService {
   ): Promise<Experiences> {
     return this.repository.createEntity(experience as Experiences);
   }
-  async findExperienceById(
-    id: FindOneOptions<Experiences>
-  ): Promise<Experiences> {
-    return this.repository.findById(id);
+  async findExperienceById(id: FindWhere<Experiences>): Promise<Experiences> {
+    return this.repository.findExperience(id);
   }
   async deleteExperience(id: FindWhere<Experiences>): Promise<DeleteResult> {
     return this.repository.deleteEntity(id);

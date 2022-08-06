@@ -21,21 +21,19 @@ export class UserEntity extends CustomEntity {
   @Column({ type: "text", array: true, nullable: true, default: [] })
   likes: string[];
 
-  @OneToOne(() => Role, {
-    cascade: true,
-    eager: true
+  @Column({ default: true })
+  isActive: boolean;
+
+  @OneToOne(() => Role, (role) => role.user, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE"
   })
   @JoinColumn()
   role: Role;
 
-  @Column({ default: true })
-  isActive: boolean;
-
   @OneToMany(() => Experiences, (experience) => experience.user, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
-    cascade: true,
-    eager: true
   })
   @JoinColumn()
   experiences: Experiences[];
@@ -43,8 +41,6 @@ export class UserEntity extends CustomEntity {
   @OneToMany(() => Educations, (education) => education.user, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
-    cascade: true,
-    eager: true
   })
   @JoinColumn()
   educations: Educations[];

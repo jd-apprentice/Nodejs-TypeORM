@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
 import { ID } from "../@types/types";
-import { ExperienceService } from "../services/index";
+import { EducationService } from "../services/index";
 
-class ExperienceController {
+class EducationController {
   /**
-   * @description Count method used to get the amount of entities
-   * @param req - Request object
-   * @param res - Response object
-   * @returns {Promise<Response>} - Count
+   * @description This method is used to get all Educations
+   * @param req
+   * @param res
+   * @returns {Promise<Response>}
    */
 
   async count(req: Request, res: Response): Promise<Response> {
     try {
       return res.json({
-        count: (await ExperienceService.findExperiences()).length,
+        count: (await EducationService.findEducations()).length,
       });
     } catch (error) {
       return res.json({
@@ -24,15 +24,15 @@ class ExperienceController {
   }
 
   /**
-   * @description This method is used to get all experiences
-   * @param req - Request object
-   * @param res - Response object
+   * @description This method is used to get all Educations
+   * @param req
+   * @param res
    * @returns {Promise<Response>}
    */
 
   async findAll(req: Request, res: Response): Promise<Response> {
     try {
-      return res.json(await ExperienceService.findExperiences());
+      return res.json(await EducationService.findEducations());
     } catch (error) {
       return res.json({
         message: error.message,
@@ -42,17 +42,17 @@ class ExperienceController {
   }
 
   /**
-   * @description This method is used to create a new experience
-   * @param req - Request object
-   * @param res - Response object
+   * @description This method is used to create a new Education
+   * @param req
+   * @param res
    * @returns {Promise<Response>}
    */
 
   async create(req: Request, res: Response): Promise<Response> {
     try {
-      await ExperienceService.createExperience(req.body);
+      await EducationService.createEducation(req.body);
       return res.json({
-        message: "Experience created",
+        message: "Education created",
         success: true,
       });
     } catch (error) {
@@ -64,18 +64,18 @@ class ExperienceController {
   }
 
   /**
-   * @description This method is used to get a experience by id
-   * @param req - Request object
-   * @param res - Response object
+   * @description This method is used to get a Education by id
+   * @param req
+   * @param res
    * @returns {Promise<Response>}
    */
 
   async findById(req: Request, res: Response): Promise<Response> {
     try {
       const { id }: ID = req.params;
-      const experienceData = await ExperienceService.findExperienceById(id);
+      const EducationData = await EducationService.findEducationById(id);
       return res.json({
-        experience: experienceData,
+        Education: EducationData,
       });
     } catch (error) {
       return res.json({
@@ -86,23 +86,23 @@ class ExperienceController {
   }
 
   /**
-   * @description This method is used to delete a experience by id
-   * @param req - Request object
-   * @param res - Response object
+   * @description This method is used to delete a Education by id
+   * @param req
+   * @param res
    * @returns {Promise<Response>}
    */
 
   async delete(req: Request, res: Response): Promise<Response> {
     try {
       const { id }: ID = req.params;
-      const experienceExists = await ExperienceService.findExperienceById(id);
-      experienceExists
-        ? (await ExperienceService.deleteExperience(id)) &&
+      const EducationExists = await EducationService.findEducationById(id);
+      EducationExists
+        ? (await EducationService.deleteEducation(id)) &&
           res.json({
-            message: "Experience deleted",
+            message: "Education deleted",
           })
         : res.json({
-            message: "Experience does not exist",
+            message: "Education does not exist",
           });
     } catch (error) {
       return res.json({
@@ -113,18 +113,18 @@ class ExperienceController {
   }
 
   /**
-   * @description This method is used to update a experience by id
-   * @param req - Request object
-   * @param res - Response object
+   * @description This method is used to update a Education by id
+   * @param req
+   * @param res
    * @returns {Promise<Response>}
    */
 
   async update(req: Request, res: Response): Promise<Response> {
     try {
       const { id }: ID = req.params;
-      await ExperienceService.updateExperience(id, req.body);
+      await EducationService.updateEducation(id, req.body);
       return res.json({
-        message: "Experience updated",
+        message: "Education updated",
       });
     } catch (error) {
       return res.json({
@@ -135,4 +135,4 @@ class ExperienceController {
   }
 }
 
-export default new ExperienceController();
+export default new EducationController();
